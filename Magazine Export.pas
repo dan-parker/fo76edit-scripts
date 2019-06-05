@@ -42,6 +42,7 @@ begin
 	sl.Add(row);
    end;
    if (pos('LPI_Loot_CapsStash_Tin',edid)>0) then begin
+	if (FixedFormID(e) = 5145111) then exit; //Skip offmap item
 	if (pos('\[00] SeventySix.esm\[70] Cell\',PathName(e))>0) then exit; //Skip Internal Cells
 	Row := '{"id":'+IntToStr(FixedFormID(e))+',"name":"Cap Stash",';
 	Row := Row +  '"type":"CapStashMarker",';
