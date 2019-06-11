@@ -33,10 +33,13 @@ begin
 			e := ElementByIndex(cell,x);
              		if ElementExists(e,'Map Marker') then begin
 	     			//AddMessage(ElementByName(e,'FULL - Name'));
-				//Bug in gamedata, fullname field is blank, so let's work around it...
-//3837135 Prime
+				//Bug in gamedata, fullname field is blank or wrong, so let's work around it...
 				If (FixedFormID(e) = 4016968) then
 					Row := '{"id":'+IntToStr(FixedFormID(e))+',"name":"Monongah Power Plan Yard",'
+				else If (FixedFormID(e) = 3837135) then
+					Row := '{"id":'+IntToStr(FixedFormID(e))+',"name":"Fissure Prime",'
+				else If (FixedFormID(e) = 3324967) then
+					Row := '{"id":'+IntToStr(FixedFormID(e))+',"name":"Monorail Elevator",'
 				else
 					Row := '{"id":'+IntToStr(FixedFormID(e))+',"name":"'+StringReplace(GetEditValue(ElementByName(ElementByName(e,'Map Marker'),'FULL - Name')),'Fast Travel Point: ','',[rfReplaceAll])+'",';
 				//Overwrite individual with workshop icons, like on in-game map.
