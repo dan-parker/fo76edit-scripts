@@ -43,7 +43,7 @@ begin
 		3715290: name := 'Toxic Valley (Map 3)';
 		3714973: name := 'Toxic Valley (Map 4)';
 		3715570: name := 'Ash Heap (Map 1)';
-		3715543: name := 'Ash Heap (Map 7)';
+		3715543: name := 'Ash Heap (Map 2)';
 		3715293: name := 'Savage Divide (Map 1)';
 		3715178: name := 'Savage Divide (Map 2)';
 		3714956: name := 'Savage Divide (Map 3)';
