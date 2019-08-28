@@ -53,16 +53,34 @@ end;
 
 function Process(e: IInterface): integer;
 var 
-	edid,row: string;
+	edid,row,info: string;
+	id: integer;
 begin
   if Signature(e) = 'ACHR' then begin
 
    edid := BaseName(e);
    if (pos('P01C_Bucket_Loot_Corpse',edid)>0) then begin
-	Row := '{"id":'+IntToStr(FixedFormID(e))+',"name":"Camera",';
+	id := FixedFormID(e);
+	case (id) of
+		4686767: info := '1';
+		4686772: info := '2';
+		4686762: info := '3';
+		4686763: info := '4';
+		4686764: info := '5';
+		4686765: info := '6';
+		4686773: info := '7';
+		4686769: info := '8';
+		4686768: info := '9';
+		4686771: info := '10';
+		4686770: info := '11';
+		4686774: info := '12';
+		4686766: info := '13';
+	end;
+	Row := '{"id":'+IntToStr(id)+',"name":"Camera",';
 	Row := Row +  '"type":"CameraMarker",';
 	Row := Row +  '"x":'+GetEditValue(ElementByName(ElementByName(ElementByName(e,'DATA - Position/Rotation'),'Position'),'X'))+',';
-	Row := Row +  '"y":'+GetEditValue(ElementByName(ElementByName(ElementByName(e,'DATA - Position/Rotation'),'Position'),'Y'))+'},';
+	Row := Row +  '"y":'+GetEditValue(ElementByName(ElementByName(ElementByName(e,'DATA - Position/Rotation'),'Position'),'Y'))+',';
+	Row := Row +  '"misc":"'+info+'"},';
 	sl.Add(row);
    end;
 
@@ -74,16 +92,30 @@ begin
 	sl.Add(row);
    end;
 
-   if (pos('LvlStrangeEncounterPOI',edid)>0) then begin
-	Row := '{"id":'+IntToStr(FixedFormID(e))+',"name":"Strange Encounter",';
+
+
+
+  end
+ else if Signature(e) = 'REFR' then begin
+
+   edid := BaseName(e);
+   if (pos('RETriggerObject',edid)>0) then begin
+	Row := '{"id":'+IntToStr(FixedFormID(e))+',"name":"Object Encounter",';
 	Row := Row +  '"type":"EncounterMarker",';
 	Row := Row +  '"x":'+GetEditValue(ElementByName(ElementByName(ElementByName(e,'DATA - Position/Rotation'),'Position'),'X'))+',';
 	Row := Row +  '"y":'+GetEditValue(ElementByName(ElementByName(ElementByName(e,'DATA - Position/Rotation'),'Position'),'Y'))+'},';
 	sl.Add(row);
    end;
 
-  end
- else exit;
+   if (pos('RETriggerScene',edid)>0) then begin
+	Row := '{"id":'+IntToStr(FixedFormID(e))+',"name":"Scene Encounter",';
+	Row := Row +  '"type":"EncounterMarker",';
+	Row := Row +  '"x":'+GetEditValue(ElementByName(ElementByName(ElementByName(e,'DATA - Position/Rotation'),'Position'),'X'))+',';
+	Row := Row +  '"y":'+GetEditValue(ElementByName(ElementByName(ElementByName(e,'DATA - Position/Rotation'),'Position'),'Y'))+'},';
+	sl.Add(row);
+   end;
+end
+else exit;
  Result := 0;
 end;
 
