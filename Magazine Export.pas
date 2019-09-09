@@ -61,7 +61,7 @@ begin
 		else if (pos('Cherry',edid)>0) then name:= 'Cherry'
 		else exit; //We only care about special ones
 	Row := '{"id":'+IntToStr(FixedFormID(e))+',"name":"'+name+'",';
-	Row := Row +  '"type":"NukaColaMarker",';
+	Row := Row +  '"type":"NukaCola'+name+'Marker",';
 	Row := Row +  '"x":'+GetEditValue(ElementByName(ElementByName(ElementByName(e,'DATA - Position/Rotation'),'Position'),'X'))+',';
 	Row := Row +  '"y":'+GetEditValue(ElementByName(ElementByName(ElementByName(e,'DATA - Position/Rotation'),'Position'),'Y'))+'},';
 	sl.Add(row);
