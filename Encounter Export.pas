@@ -101,7 +101,7 @@ begin
    edid := BaseName(e);
    if (pos('RETriggerObject',edid)>0) then begin
 	Row := '{"id":'+IntToStr(FixedFormID(e))+',"name":"Object Encounter",';
-	Row := Row +  '"type":"EncounterMarker",';
+	Row := Row +  '"type":"ObjectEncounterMarker",';
 	Row := Row +  '"x":'+GetEditValue(ElementByName(ElementByName(ElementByName(e,'DATA - Position/Rotation'),'Position'),'X'))+',';
 	Row := Row +  '"y":'+GetEditValue(ElementByName(ElementByName(ElementByName(e,'DATA - Position/Rotation'),'Position'),'Y'))+'},';
 	sl.Add(row);
@@ -109,7 +109,7 @@ begin
 
    if (pos('RETriggerScene',edid)>0) then begin
 	Row := '{"id":'+IntToStr(FixedFormID(e))+',"name":"Scene Encounter",';
-	Row := Row +  '"type":"EncounterMarker",';
+	Row := Row +  '"type":"SceneEncounterMarker",';
 	Row := Row +  '"x":'+GetEditValue(ElementByName(ElementByName(ElementByName(e,'DATA - Position/Rotation'),'Position'),'X'))+',';
 	Row := Row +  '"y":'+GetEditValue(ElementByName(ElementByName(ElementByName(e,'DATA - Position/Rotation'),'Position'),'Y'))+'},';
 	sl.Add(row);
@@ -117,7 +117,7 @@ begin
 
    if (pos('RETriggerTravel',edid)>0) then begin
 	Row := '{"id":'+IntToStr(FixedFormID(e))+',"name":"Travel Encounter",';
-	Row := Row +  '"type":"EncounterMarker",';
+	Row := Row +  '"type":"TravelEncounterMarker",';
 	Row := Row +  '"x":'+GetEditValue(ElementByName(ElementByName(ElementByName(e,'DATA - Position/Rotation'),'Position'),'X'))+',';
 	Row := Row +  '"y":'+GetEditValue(ElementByName(ElementByName(ElementByName(e,'DATA - Position/Rotation'),'Position'),'Y'))+'},';
 	sl.Add(row);
