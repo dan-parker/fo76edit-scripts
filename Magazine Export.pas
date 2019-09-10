@@ -27,7 +27,7 @@ begin
    edid := BaseName(e);
    if (pos('LPI_Loot_Magazines',edid)>0) then begin
 	if (pos('\[00] SeventySix.esm\[70] Cell\',PathName(e))>0) then exit; //Skip Internal Cells
-	Row := '{"id":'+IntToStr(FixedFormID(e))+',"name":"Magazine",';
+	Row := '{"id":"'+IntToHex(FixedFormID(e), 8)+'","name":"Magazine",';
 	Row := Row +  '"type":"MagazineMarker",';
 	Row := Row +  '"x":'+GetEditValue(ElementByName(ElementByName(ElementByName(e,'DATA - Position/Rotation'),'Position'),'X'))+',';
 	Row := Row +  '"y":'+GetEditValue(ElementByName(ElementByName(ElementByName(e,'DATA - Position/Rotation'),'Position'),'Y'))+'},';
@@ -35,7 +35,7 @@ begin
    end;
    if (pos('LPI_Loot_Bobbleheads',edid)>0) then begin
 	if (pos('\[00] SeventySix.esm\[70] Cell\',PathName(e))>0) then exit; //Skip Internal Cells
-	Row := '{"id":'+IntToStr(FixedFormID(e))+',"name":"Bobblehead",';
+	Row := '{"id":"'+IntToHex(FixedFormID(e), 8)+'","name":"Bobblehead",';
 	Row := Row +  '"type":"BobbleMarker",';
 	Row := Row +  '"x":'+GetEditValue(ElementByName(ElementByName(ElementByName(e,'DATA - Position/Rotation'),'Position'),'X'))+',';
 	Row := Row +  '"y":'+GetEditValue(ElementByName(ElementByName(ElementByName(e,'DATA - Position/Rotation'),'Position'),'Y'))+'},';
@@ -44,7 +44,7 @@ begin
    if (pos('LPI_Loot_CapsStash_Tin',edid)>0) then begin
 	if (FixedFormID(e) = 5145111) then exit; //Skip offmap item
 	if (pos('\[00] SeventySix.esm\[70] Cell\',PathName(e))>0) then exit; //Skip Internal Cells
-	Row := '{"id":'+IntToStr(FixedFormID(e))+',"name":"Cap Stash",';
+	Row := '{"id":"'+IntToHex(FixedFormID(e), 8)+'","name":"Cap Stash",';
 	Row := Row +  '"type":"CapStashMarker",';
 	Row := Row +  '"x":'+GetEditValue(ElementByName(ElementByName(ElementByName(e,'DATA - Position/Rotation'),'Position'),'X'))+',';
 	Row := Row +  '"y":'+GetEditValue(ElementByName(ElementByName(ElementByName(e,'DATA - Position/Rotation'),'Position'),'Y'))+'},';
@@ -60,7 +60,7 @@ begin
 		else if	(pos('Orange',edid)>0) then name:= 'Orange'
 		else if (pos('Cherry',edid)>0) then name:= 'Cherry'
 		else exit; //We only care about special ones
-	Row := '{"id":'+IntToStr(FixedFormID(e))+',"name":"'+name+'",';
+	Row := '{"id":"'+IntToHex(FixedFormID(e), 8)+'","name":"'+name+'",';
 	Row := Row +  '"type":"NukaCola'+name+'Marker",';
 	Row := Row +  '"x":'+GetEditValue(ElementByName(ElementByName(ElementByName(e,'DATA - Position/Rotation'),'Position'),'X'))+',';
 	Row := Row +  '"y":'+GetEditValue(ElementByName(ElementByName(ElementByName(e,'DATA - Position/Rotation'),'Position'),'Y'))+'},';

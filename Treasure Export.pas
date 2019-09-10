@@ -64,7 +64,7 @@ begin
 		3714375: name := 'Cranberry Bog (Map 3)';
 		3714237: name := 'Cranberry Bog (Map 4)';
 	end;
-	Row := '{"id":'+IntToStr(id)+',"name":"'+name+'",';
+	Row := '{"id":"'+IntToHex(id, 8)+'","name":"'+name+'",';
 	Row := Row +  '"type":"TreasureMarker",';
 	Row := Row +  '"x":'+GetEditValue(ElementByName(ElementByName(ElementByName(e,'DATA - Position/Rotation'),'Position'),'X'))+',';
 	Row := Row +  '"y":'+GetEditValue(ElementByName(ElementByName(ElementByName(e,'DATA - Position/Rotation'),'Position'),'Y'))+'},';

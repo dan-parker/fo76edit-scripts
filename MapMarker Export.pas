@@ -35,13 +35,13 @@ begin
 	     			//AddMessage(ElementByName(e,'FULL - Name'));
 				//Bug in gamedata, fullname field is blank or wrong, so let's work around it...
 				If (FixedFormID(e) = 4016968) then
-					Row := '{"id":'+IntToStr(FixedFormID(e))+',"name":"Monongah Power Plan Yard",'
+					Row := '{"id":"'+IntToHex(FixedFormID(e), 8)+'","name":"Monongah Power Plan Yard",'
 				else If (FixedFormID(e) = 3837135) then
-					Row := '{"id":'+IntToStr(FixedFormID(e))+',"name":"Fissure Prime",'
+					Row := '{"id":"'+IntToHex(FixedFormID(e), 8)+'","name":"Fissure Prime",'
 				else If (FixedFormID(e) = 3324967) then
-					Row := '{"id":'+IntToStr(FixedFormID(e))+',"name":"Monorail Elevator",'
+					Row := '{"id":"'+IntToHex(FixedFormID(e), 8)+'","name":"Monorail Elevator",'
 				else
-					Row := '{"id":'+IntToStr(FixedFormID(e))+',"name":"'+StringReplace(GetEditValue(ElementByName(ElementByName(e,'Map Marker'),'FULL - Name')),'Fast Travel Point: ','',[rfReplaceAll])+'",';
+					Row := '{"id":"'+IntToHex(FixedFormID(e), 8)+'","name":"'+StringReplace(GetEditValue(ElementByName(ElementByName(e,'Map Marker'),'FULL - Name')),'Fast Travel Point: ','',[rfReplaceAll])+'",';
 				//Overwrite individual with workshop icons, like on in-game map.
 				If (wbStringListInString(Workshops,IntToStr(FixedFormID(e))) <> -1) then
 					Row := Row +  '"type":"WorkshopMarker",'

@@ -27,7 +27,7 @@ begin
    edid := BaseName(e);
    if (pos('LPI_PowerArmorFurniture',edid)>0) then begin
 	if (pos('\[00] SeventySix.esm\[70] Cell\',PathName(e))>0) then exit; //Skip Internal Cells
-	Row := '{"id":'+IntToStr(FixedFormID(e))+',"name":"Power Armor",';
+	Row := '{"id":"'+IntToHex(FixedFormID(e), 8)+'","name":"Power Armor",';
 	Row := Row +  '"type":"PArmorMarker",';
 	Row := Row +  '"x":'+GetEditValue(ElementByName(ElementByName(ElementByName(e,'DATA - Position/Rotation'),'Position'),'X'))+',';
 	Row := Row +  '"y":'+GetEditValue(ElementByName(ElementByName(ElementByName(e,'DATA - Position/Rotation'),'Position'),'Y'))+'},';
@@ -35,7 +35,7 @@ begin
    end;
    if (pos('LPI_Ammo_FusionCore',edid)>0) then begin
 	if (pos('\[00] SeventySix.esm\[70] Cell\',PathName(e))>0) then exit; //Skip Internal Cells
-	Row := '{"id":'+IntToStr(FixedFormID(e))+',"name":"Fusion Core",';
+	Row := '{"id":"'+IntToHex(FixedFormID(e), 8)+'","name":"Fusion Core",';
 	Row := Row +  '"type":"FCoreMarker",';
 	Row := Row +  '"x":'+GetEditValue(ElementByName(ElementByName(ElementByName(e,'DATA - Position/Rotation'),'Position'),'X'))+',';
 	Row := Row +  '"y":'+GetEditValue(ElementByName(ElementByName(ElementByName(e,'DATA - Position/Rotation'),'Position'),'Y'))+'},';
