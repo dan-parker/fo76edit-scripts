@@ -8,12 +8,12 @@ var
 
 function Initialize: integer;
 var
-  f, Blocks, Block, SubBlock, Cell, CellItems, e : IInterface;
+  f, Blocks, Block, SubBlock, Cell, CellItems, e, Linke : IInterface;
   i, j, k, z : integer;
-  LocName, CellID: String;
+  LocName, CellID, Sig, Sig2: String;
 begin
   slCells := TStringList.Create;
-  slCells.Add('FormID;Name;Location;X;Y;Z;Rotation-X;Rotation=Y;Rotation-Z;');
+  slCells.Add('FormID,Name,Signature,BaseSignature,Location,Position-X,Position-Y,Position-Z,Rotation-X,Rotation-Y,Rotation-Z,Bounds-X1,Bounds-Y1,Bounds-Z1,Bounds-X2,Bounds-Y2,Bounds-Z2');
 
   f := FileByIndex(0); //Main ESM
   Blocks := GroupBySignature(f, 'CELL');
@@ -35,19 +35,31 @@ begin
 					CellItems := FindChildGroup(ChildGroup(Cell),9,Cell);
 					for z := 0 to ElementCount(CellItems) -1 do begin
 						e := ElementByIndex(CellItems,z);
-
-						slCells.Add(Format('%s;%s;%s;%s;%s;%s;%s;%s;%s', [
-						  '[' + IntToHex(FormID(e), 8) + ']',  // add [] to prevent Excel from treating FormID as a number
-						  GetEditValue(ElementByName(e,'NAME - Base')),
+						Linke := LinksTo(ElementByName(e,'NAME - Base'));
+						sig := Signature(e);
+						sig2 := Signature(Linke);
+						If (sig2 <> 'LIGH') AND (sig <> 'NAVM') AND (sig2 <> 'SOUN') AND (sig <> 'PHZD') AND (sig2 <> 'IDLM') then begin //Let's filter some items out
+						slCells.Add(Format('"%s","%s",%s,%s,"%s",%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s', [
+						  IntToHex(FormID(e), 8),
+						  Name(Linke),
+						  sig,
+						  sig2,
 						  LocName,
 						  GetEditValue(ElementByName(ElementByName(ElementByName(e,'DATA - Position/Rotation'),'Position'),'X')),
 						  GetEditValue(ElementByName(ElementByName(ElementByName(e,'DATA - Position/Rotation'),'Position'),'Y')),
 						  GetEditValue(ElementByName(ElementByName(ElementByName(e,'DATA - Position/Rotation'),'Position'),'Z')),
 						  GetEditValue(ElementByName(ElementByName(ElementByName(e,'DATA - Position/Rotation'),'Rotation'),'X')),
 						  GetEditValue(ElementByName(ElementByName(ElementByName(e,'DATA - Position/Rotation'),'Rotation'),'Y')),
-						  GetEditValue(ElementByName(ElementByName(ElementByName(e,'DATA - Position/Rotation'),'Rotation'),'Z'))
+						  GetEditValue(ElementByName(ElementByName(ElementByName(e,'DATA - Position/Rotation'),'Rotation'),'Z')),
+						  GetEditValue(ElementByName(ElementByName(Linke,'OBND - Object Bounds'),'X1')),
+						  GetEditValue(ElementByName(ElementByName(Linke,'OBND - Object Bounds'),'Y1')),
+						  GetEditValue(ElementByName(ElementByName(Linke,'OBND - Object Bounds'),'Z1')),
+						  GetEditValue(ElementByName(ElementByName(Linke,'OBND - Object Bounds'),'X2')),
+						  GetEditValue(ElementByName(ElementByName(Linke,'OBND - Object Bounds'),'Y2')),
+						  GetEditValue(ElementByName(ElementByName(Linke,'OBND - Object Bounds'),'Z2'))
       						]));
-
+						end;
+					  //if (z > 200) then break; //Shorten run for testing
 					end;
 				
 
