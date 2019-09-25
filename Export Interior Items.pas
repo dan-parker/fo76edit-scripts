@@ -38,10 +38,12 @@ begin
 						Linke := LinksTo(ElementByName(e,'NAME - Base'));
 						sig := Signature(e);
 						sig2 := Signature(Linke);
-						If (sig2 <> 'LIGH') AND (sig <> 'NAVM') AND (sig2 <> 'SOUN') AND (sig <> 'PHZD') AND (sig2 <> 'IDLM') then begin //Let's filter some items out
+						If (sig2 <> 'LIGH') AND (sig <> 'NAVM') AND (sig2 <> 'SOUN') AND (sig <> 'PHZD') AND (sig2 <> 'IDLM')
+						 AND (pos('Debug',LocName)=0) AND (pos('Babylon',LocName)=0) AND (pos('Test',LocName)=0) AND (pos('CUT_',LocName)=0)
+						 AND (pos('76CharGen',LocName)=0) AND (pos('76TrailerLocation',LocName)=0) AND (pos('LeveledItemSpawnLocation',LocName)=0) AND (pos('Holding',LocName)=0) then begin //Let's filter some items out
 						slCells.Add(Format('"%s","%s",%s,%s,"%s",%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s', [
 						  IntToHex(FormID(e), 8),
-						  Name(Linke),
+						  StringReplace(Name(Linke),'"','""',[rfReplaceAll]),
 						  sig,
 						  sig2,
 						  LocName,
@@ -59,7 +61,7 @@ begin
 						  GetEditValue(ElementByName(ElementByName(Linke,'OBND - Object Bounds'),'Z2'))
       						]));
 						end;
-					  //if (z > 200) then break; //Shorten run for testing
+					 // if (z > 200) then break; //Shorten run for testing
 					end;
 				
 
