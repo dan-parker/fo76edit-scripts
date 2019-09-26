@@ -10,10 +10,10 @@ function Initialize: integer;
 var
   f, Blocks, Block, SubBlock, Cell, CellItems, e, Linke : IInterface;
   i, j, k, z : integer;
-  LocName, CellID, Sig, Sig2: String;
+  LocName, CellID, CellName, ItemName, Sig, Sig2: String;
 begin
   slCells := TStringList.Create;
-  slCells.Add('FormID,Name,Signature,BaseSignature,Location,Position-X,Position-Y,Position-Z,Rotation-X,Rotation-Y,Rotation-Z,Bounds-X1,Bounds-Y1,Bounds-Z1,Bounds-X2,Bounds-Y2,Bounds-Z2');
+  slCells.Add('FormID,Name,Signature,BaseSignature,CellID,CellName,Location,Position-X,Position-Y,Position-Z,Rotation-X,Rotation-Y,Rotation-Z,Bounds-X1,Bounds-Y1,Bounds-Z1,Bounds-X2,Bounds-Y2,Bounds-Z2');
 
   f := FileByIndex(0); //Main ESM
   Blocks := GroupBySignature(f, 'CELL');
@@ -32,20 +32,26 @@ begin
 				LocName: = EditorID(LinksTo(ElementBySignature(Cell, 'XLCN')));
 				If (LocName <> '') then begin //Only include items with External Locations
 					CellID : = IntToHex(FixedFormID(Cell), 8);
+					CellName := DisplayName(Cell);	
 					CellItems := FindChildGroup(ChildGroup(Cell),9,Cell);
 					for z := 0 to ElementCount(CellItems) -1 do begin
 						e := ElementByIndex(CellItems,z);
 						Linke := LinksTo(ElementByName(e,'NAME - Base'));
+						ItemName := StringReplace(Name(Linke),'"','""',[rfReplaceAll]);
 						sig := Signature(e);
 						sig2 := Signature(Linke);
 						If (sig2 <> 'LIGH') AND (sig <> 'NAVM') AND (sig2 <> 'SOUN') AND (sig <> 'PHZD') AND (sig2 <> 'IDLM') AND (sig2 <> 'BNDS')
 						 AND (pos('Debug',LocName)=0) AND (pos('Babylon',LocName)=0) AND (pos('Test',LocName)=0) AND (pos('CUT_',LocName)=0)
-						 AND (pos('76CharGen',LocName)=0) AND (pos('76TrailerLocation',LocName)=0) AND (pos('LeveledItemSpawnLocation',LocName)=0) AND (pos('Holding',LocName)=0) then begin //Let's filter some items out
-						slCells.Add(Format('"%s","%s",%s,%s,"%s",%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s', [
+						 AND (pos('76CharGen',LocName)=0) AND (pos('76TrailerLocation',LocName)=0) AND (pos('LeveledItemSpawnLocation',LocName)=0) AND (pos('Holding',LocName)=0)
+						 AND (pos('Test', Cellname)=0) 
+						AND (ItemName <> 'CollisionMarker [STAT:00000021]') AND (ItemName <> 'StaticCollectionPivotDummy [STAT:00035812]') AND (ItemName <> 'CubeMapVolume [STAT:00000024]') then begin //Let's filter some items out
+						slCells.Add(Format('"%s","%s",%s,%s,"%s","%s","%s",%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s', [
 						  IntToHex(FormID(e), 8),
-						  StringReplace(Name(Linke),'"','""',[rfReplaceAll]),
+						  ItemName,
 						  sig,
 						  sig2,
+						  CellID,
+						  CellName,
 						  LocName,
 						  GetEditValue(ElementByName(ElementByName(ElementByName(e,'DATA - Position/Rotation'),'Position'),'X')),
 						  GetEditValue(ElementByName(ElementByName(ElementByName(e,'DATA - Position/Rotation'),'Position'),'Y')),
@@ -61,7 +67,7 @@ begin
 						  GetEditValue(ElementByName(ElementByName(Linke,'OBND - Object Bounds'),'Z2'))
       						]));
 						end;
-					 // if (z > 200) then break; //Shorten run for testing
+					  //if (z > 200) then break; //Shorten run for testing
 					end;
 				
 
