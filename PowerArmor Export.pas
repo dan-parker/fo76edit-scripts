@@ -15,6 +15,7 @@ begin
     //Let's override the workshop locations w/the workshop icon
     sl := TStringList.Create;
     sl.Add('[');
+    sl.Sorted := True;
     Result := 0;
 end;
 
@@ -50,16 +51,26 @@ end;
 
 function Finalize: integer;
 var
-  fname: string;
+  fname, Last: string;
+  rowcount: integer;
 begin
+try
   fname := ProgramPath + 'PArmor.json';
-  //Dummy record for trailing comma
-  sl.Add('{"id":9999999,"name":"","type":"","x":0,"y":0}');
+  //Lets have proper JSON and remove the last record's comma
+ If (sl.Count > 1) then begin //Let's only do if there are rows...
+	rowcount := sl.count-1; //0 Index, so let's remove one
+	Last := sl[rowcount]; //Get the Last row
+	sl.Delete(rowcount); //Remove last line from the list
+	Delete(Last, Length(Last), Length(Last) -1); //Trim off last character the trailing ,
+	sl.Add(Last); //Add the last line back
+  end;
+  sl.Sorted := False;
   sl.Add(']');
   sl.SaveToFile(fname);
-  sl.Free;
+finally
+  sl.Free; //Make sure we free memory if this pukes..
+end;
   Result := 1;
 end;
-
 
 end.
