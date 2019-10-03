@@ -23,7 +23,6 @@ function Process(e: IInterface): integer;
 var 
 	edid,row,name,markername: string;
 begin
-try
   if Signature(e) = 'REFR' then begin
 
    edid := BaseName(e);
@@ -44,9 +43,6 @@ try
    end;
   end
  else exit;
-except
-  sl.Free; //Make sure we free memory if this pukes..
-end;
  Result := 0;
 end;
 
