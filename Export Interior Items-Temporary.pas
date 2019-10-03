@@ -1,5 +1,5 @@
 {
-  Build a list of interior cell items in csv format
+  Build a list of interior cell temporary items in csv format
 }
 unit ListInteriorCells;
 
