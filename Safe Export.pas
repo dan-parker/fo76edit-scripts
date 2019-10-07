@@ -12,9 +12,8 @@ procedure GetMarkers;
 var
   wrld, wrldgrup, block, subblock, cell, e: IInterface;
   i,w,x,y,z,counter: integer;
-  row, Name: string;
+  row, Name, LockLevel: string;
 begin
-try
     //Let's try to filter to the specific worldspace so we don't have to search through more stuff...
     if wbGameMode = gmFNV then
       wrld := RecordByFormID(FileByIndex(0), $000DA726, False)
@@ -37,9 +36,17 @@ try
 				e := ElementByIndex(cell,z);
 				Name := GetEditValue(ElementByName(e,'NAME - Base'));
 				If (wbStringListInString(ItemList,Name) <> -1) then begin
-					Row := '{"id":"'+IntToHex(FixedFormID(e), 8)+'","name":"'+StringReplace(Name,'LootPriorityPreWar_','',[rfReplaceAll])+'",';
-					Row := Row +  '"type":"SafeMarker",';
-					Row := Row +  '"Lock":"'+GetEditValue(ElementByName(ElementByName(e,'XLOC - Lock Data'),'Level'))+'",';
+
+		LockLevel := GetEditValue(ElementByName(ElementByName(e,'XLOC - Lock Data'),'Level'));
+		if (pos('Novice',LockLevel)>0) then LockLevel := '0'
+		else if	(pos('Advanced',LockLevel)>0) then LockLevel := '1'
+		else if	(pos('Expert',LockLevel)>0) then LockLevel := '2'
+		else if (pos('Master',LockLevel)>0) then LockLevel := '3'
+		else if (pos('Key',LockLevel)>0) then LockLevel := 'Key'
+		else exit;
+
+					Row := '{"id":"'+IntToHex(FixedFormID(e), 8)+'","name":"'+StringReplace(Name(e),'"','\"',[rfReplaceAll]) +'",';
+					Row := Row +  '"type":"SafeMarker_Lvl_'+LockLevel+'",';
 					Row := Row +  '"x":'+GetEditValue(ElementByName(ElementByName(ElementByName(e,'DATA - Position/Rotation'),'Position'),'X'))+',';
 					Row := Row +  '"y":'+GetEditValue(ElementByName(ElementByName(ElementByName(e,'DATA - Position/Rotation'),'Position'),'Y'))+',';
 					Row := Row +  '"z":'+GetEditValue(ElementByName(ElementByName(ElementByName(e,'DATA - Position/Rotation'),'Position'),'Z'))+'},';
@@ -49,9 +56,6 @@ try
 		end;
 	end;
      end;
-except
-  sl.Free; //Make sure we free memory if this pukes..
-end;
 end;
 
 
