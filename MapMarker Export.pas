@@ -5,13 +5,13 @@
 unit userscript;
 
 var
-  sl,Workshops: TStringList;
+  sl: TStringList;
 
 procedure GetMarkers;
 var
-  wrlds, wrld, wrldgrup, cell, e: IInterface;
-  i,x,counter: integer;
-  row: string;
+  wrlds, wrld, wrldgrup, cell, e, ref, keywords: IInterface;
+  i,j,k,x,counter: integer;
+  row, LocName, Markername: string;
 begin
     //Let's try to filter to the specific worldspace so we don't have to search through more stuff...
     if wbGameMode = gmFNV then
@@ -27,26 +27,30 @@ begin
 	cell := ElementByIndex(wrldgrup,i);
 	//Only do Persistent items
 	if GroupType(cell) = 8 then begin
-                AddMessage('Total items in world:'+ IntToStr(ElementCount(cell)));
+              //  AddMessage('Total items in world:'+ IntToStr(ElementCount(cell)));
 		counter := 0;
 		for x := 0 to ElementCount(cell) - 1 do begin
 			e := ElementByIndex(cell,x);
              		if ElementExists(e,'Map Marker') then begin
-	     			//AddMessage(ElementByName(e,'FULL - Name'));
-				//Bug in gamedata, fullname field is blank or wrong, so let's work around it...
-				If (FixedFormID(e) = 4016968) then
-					Row := '{"id":"'+IntToHex(FixedFormID(e), 8)+'","name":"Monongah Power Plan Yard",'
-				else If (FixedFormID(e) = 3837135) then
-					Row := '{"id":"'+IntToHex(FixedFormID(e), 8)+'","name":"Fissure Prime",'
-				else If (FixedFormID(e) = 3324967) then
-					Row := '{"id":"'+IntToHex(FixedFormID(e), 8)+'","name":"Monorail Elevator",'
-				else
-					Row := '{"id":"'+IntToHex(FixedFormID(e), 8)+'","name":"'+StringReplace(GetEditValue(ElementByName(ElementByName(e,'Map Marker'),'FULL - Name')),'Fast Travel Point: ','',[rfReplaceAll])+'",';
-				//Overwrite individual with workshop icons, like on in-game map.
-				If (wbStringListInString(Workshops,IntToStr(FixedFormID(e))) <> -1) then
-					Row := Row +  '"type":"WorkshopMarker",'
-				else 
-					Row := Row +  '"type":"'+GetEditValue(ElementByName(ElementByName(ElementByName(e,'Map Marker'),'TNAM - TNAM'),'Type'))+'",';
+				 for j := 0 to ReferencedByCount(e) - 1 do begin
+					ref := ReferencedByIndex(e,j);
+					if (Signature(ref) = 'LCTN') then begin
+					  LocName := GetEditValue(ElementByName(ref,'FULL - Name'));
+					  Keywords := ElementByName(ElementByName(ref,'Keywords'),'KWDA - Keywords');
+					end;
+				end;
+			//Most locations use the LCTN name, but not all, usually workshops
+			If (GetEditValue(ElementByName(ElementByName(ElementByName(e,'Map Marker'),'FNAM - Map Flags'),'Use Location Name')) = '') then begin
+				LocName := GetEditValue(ElementByName(ElementByName(e,'Map Marker'),'FULL - Name'));
+			end;
+			//Overwrite individual with workshop icons, like on in-game map.
+			MarkerName := GetEditValue(ElementByName(ElementByName(ElementByName(e,'Map Marker'),'TNAM - TNAM'),'Type'));
+			for k := 0 to ElementCount(Keywords) -1 do begin
+			  if (pos('LocTypeWorkshop',GetEditValue(ElementByIndex(Keywords,k)))>0) then MarkerName := 'WorkshopMarker';
+			end;
+
+				Row := '{"id":"'+IntToHex(FixedFormID(e), 8)+'","name":"'+ LocName +'",';
+				Row := Row +  '"type":"'+MarkerName+'",';
 				Row := Row +  '"x":'+GetEditValue(ElementByName(ElementByName(ElementByName(e,'DATA - Position/Rotation'),'Position'),'X'))+',';
 				Row := Row +  '"y":'+GetEditValue(ElementByName(ElementByName(ElementByName(e,'DATA - Position/Rotation'),'Position'),'Y'))+'},';
 				Row := StringReplace(row,'\','\\',[rfReplaceAll]);
@@ -66,31 +70,6 @@ end;
 // You can remove it if script doesn't require initialization code
 function Initialize: integer;
 begin
-    //Let's override the workshop locations w/the workshop icon
-    Workshops := TStringList.Create;
-    Workshops.Add('408960');
-    Workshops.Add('3007870');
-    Workshops.Add('591398');
-    Workshops.Add('585138');
-    Workshops.Add('1100973');
-    Workshops.Add('381740');
-    Workshops.Add('605129');
-    Workshops.Add('3315503');
-    Workshops.Add('1101032');
-    Workshops.Add('2856530');
-    Workshops.Add('3658197');
-    Workshops.Add('4425105');
-    Workshops.Add('1088813');
-    Workshops.Add('2913845');
-    Workshops.Add('16722');
-    Workshops.Add('1089240');
-    Workshops.Add('396488');
-    Workshops.Add('2536968');
-    Workshops.Add('4016918');
-    Workshops.Add('630835');
-    Workshops.Add('1089188');
-    Workshops.Add('4016968');
-
     sl := TStringList.Create;
     sl.Add('[');
     sl.Sorted := True;
