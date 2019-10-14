@@ -11,7 +11,7 @@ procedure GetMarkers;
 var
   wrlds, wrld, wrldgrup, cell, e, ref, keywords: IInterface;
   i,j,k,x,counter: integer;
-  row, LocName, Markername: string;
+  row, LocName, Markername, xLocName: string;
 begin
     //Let's try to filter to the specific worldspace so we don't have to search through more stuff...
     if wbGameMode = gmFNV then
@@ -36,6 +36,7 @@ begin
 					ref := ReferencedByIndex(e,j);
 					if (Signature(ref) = 'LCTN') then begin
 					  LocName := GetEditValue(ElementByName(ref,'FULL - Name'));
+					  XLocName := EditorID(ref);
 					  Keywords := ElementByName(ElementByName(ref,'Keywords'),'KWDA - Keywords');
 					end;
 				end;
@@ -50,6 +51,7 @@ begin
 			end;
 
 				Row := '{"id":"'+IntToHex(FixedFormID(e), 8)+'","name":"'+ LocName +'",';
+				Row := Row +  '"location":"'+XLocName+'",';
 				Row := Row +  '"type":"'+MarkerName+'",';
 				Row := Row +  '"x":'+GetEditValue(ElementByName(ElementByName(ElementByName(e,'DATA - Position/Rotation'),'Position'),'X'))+',';
 				Row := Row +  '"y":'+GetEditValue(ElementByName(ElementByName(ElementByName(e,'DATA - Position/Rotation'),'Position'),'Y'))+'},';
