@@ -10,7 +10,7 @@ function Initialize: integer;
 var
   f, Blocks, Block, SubBlock, Cell, CellItems, e, Linke : IInterface;
   i, j, k, z : integer;
-  LocName, CellID, CellName, ItemName, Sig, Sig2, row, LockLevel, MarkerType: String;
+  LocName, LocName2, CellID, CellName, ItemName, Sig, Sig2, row, LockLevel, MarkerType: String;
 begin
     NameList := TStringList.Create; //List of Names to look through
     NameList.Add('LPI_Loot_Magazines');
@@ -20,6 +20,7 @@ begin
     NameList.Add('LPI_PowerArmorFurniture');
     NameList.Add('LPI_Ammo_FusionCore');
     NameList.Add('Workbench');
+    NameList.Add('workbench'); //Inconsistent cap
     NameList.Add('LootPriorityPrewar_Safe');
     LocFilter := TStringList.Create; //Ignore these locations
     LocFilter.Add('Debug');
@@ -51,6 +52,7 @@ begin
 		//	AddMessage('CellGroup Count '+IntToStr(ElementCount(Cell)));
 			if GetElementNativeValues(Cell, 'DATA') and 1 > 0 then begin
 				LocName: = EditorID(LinksTo(ElementBySignature(Cell, 'XLCN')));
+				LocName2 := EditorID(LinksTo(ElementBySignature(LinksTo(ElementBySignature(Cell, 'XLCN')),'PNAM - Parent Location')));
 				If (LocName <> '') then begin //Only include items with External Locations
 					CellID : = IntToHex(FixedFormID(Cell), 8);
 					CellName := DisplayName(Cell);	
@@ -105,6 +107,7 @@ begin
 					Row := '{"id":"'+IntToHex(FixedFormID(e), 8)+'","name":"'+ ItemName +'",';
 					Row := Row +  '"type":"'+MarkerType+'",';
 					Row := Row +  '"location":"'+LocName+'",';
+					Row := Row +  '"parent":"'+LocName2+'",';		
 					Row := Row +  '"cell":"'+CellName+'",';
 					Row := Row +  '"x":'+GetEditValue(ElementByName(ElementByName(ElementByName(e,'DATA - Position/Rotation'),'Position'),'X'))+',';
 					Row := Row +  '"y":'+GetEditValue(ElementByName(ElementByName(ElementByName(e,'DATA - Position/Rotation'),'Position'),'Y'))+',';
@@ -120,7 +123,7 @@ begin
 					Row := Row +  '"bounds-z2":'+GetEditValue(ElementByName(ElementByName(Linke,'OBND - Object Bounds'),'Z2'))+'},';
 					if (MarkerType <> 'Marker') then slCells.Add(row);
 						end;
-					  if (z > 200) then break; //Shorten run for testing
+					  //if (z > 200) then break; //Shorten run for testing
 					end;
 				
 
