@@ -60,6 +60,7 @@ begin
 		else if (pos('Dark',edid)>0) then name:= 'Dark'
 		else if	(pos('Orange',edid)>0) then name:= 'Orange'
 		else if (pos('Cherry',edid)>0) then name:= 'Cherry'
+		else if (pos('Cranberry',edid)>0) then name:= 'Cranberry'
 		else exit; //We only care about special ones
 	Row := '{"id":"'+IntToHex(FixedFormID(e), 8)+'","name":"'+name+'",';
 	Row := Row +  '"type":"NukaCola'+name+'Marker",';

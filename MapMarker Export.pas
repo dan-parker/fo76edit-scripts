@@ -44,11 +44,23 @@ begin
 			If (GetEditValue(ElementByName(ElementByName(ElementByName(e,'Map Marker'),'FNAM - Map Flags'),'Use Location Name')) = '') then begin
 				LocName := GetEditValue(ElementByName(ElementByName(e,'Map Marker'),'FULL - Name'));
 			end;
-			//Overwrite individual with workshop icons, like on in-game map.
+			//Overwrite individual with workshop icons, like on in-game map, and set main faction icon.
 			MarkerName := GetEditValue(ElementByName(ElementByName(ElementByName(e,'Map Marker'),'TNAM - TNAM'),'Type'));
 			for k := 0 to ElementCount(Keywords) -1 do begin
+			  if ((MarkerName = 'DoorMarker') or (MarkerName = 'QuestMarker') or (MarkerName = 'PublicWorkshopMarker')) then begin
+			  	if (pos('LocEncMainBloodEagles',GetEditValue(ElementByIndex(Keywords,k)))>0) then MarkerName := 'BloodEaglesMarker';
+			  	if (pos('LocEncMainCultist',GetEditValue(ElementByIndex(Keywords,k)))>0) then MarkerName := 'CultistMarker';
+			  	if (pos('LocEncMainRaider',GetEditValue(ElementByIndex(Keywords,k)))>0) then MarkerName := 'RaiderMarker';
+			  end;
+
+
+			  if (pos('LocSettlementFoundation',GetEditValue(ElementByIndex(Keywords,k)))>0) then MarkerName := 'SettlerMarker';
+			  if (pos('LocSettlementCrater',GetEditValue(ElementByIndex(Keywords,k)))>0) then MarkerName := 'CraterMarker';
 			  if (pos('LocTypeWorkshop',GetEditValue(ElementByIndex(Keywords,k)))>0) then MarkerName := 'WorkshopMarker';
 			end;
+
+			if (LocName = 'Vault 79') then MarkerName := 'Vault79Marker';
+
 
 				Row := '{"id":"'+IntToHex(FixedFormID(e), 8)+'","name":"'+ LocName +'",';
 				Row := Row +  '"location":"'+XLocName+'",';

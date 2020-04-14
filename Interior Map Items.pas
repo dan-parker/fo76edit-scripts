@@ -79,7 +79,8 @@ begin
 		else if	(pos('Wild',ItemName)>0) then ItemName:= 'Wild'
 		else if (pos('Dark',ItemName)>0) then ItemName:= 'Dark'
 		else if	(pos('Orange',ItemName)>0) then ItemName:= 'Orange'
-		else if (pos('Cherry',ItemName)>0) then ItemName:= 'Cherry';
+		else if (pos('Cherry',ItemName)>0) then ItemName:= 'Cherry'
+		else if (pos('Cranberry',ItemName)>0) then ItemName:= 'Cranberry';
 		If (pos('LPI',ItemName)=0) then MarkerType := 'NukaCola'+ItemName+'Marker';
   end;
 
@@ -94,6 +95,7 @@ begin
 
 		if (pos('workbenchWeapons',ItemName)>0) then begin ItemName:= 'Weapons Workbench';MarkerType:= 'WeaponWorkbenchMarker'; end
 		else if	(pos('WorkbenchTinkers',ItemName)>0) then begin ItemName:= 'Tinker`s Workbench';MarkerType:= 'TinkerWorkbenchMarker'; end
+		else if	(pos('AbbieWorkbench',ItemName)>0) then begin ItemName:= 'Tinker`s Workbench';MarkerType:= 'TinkerWorkbenchMarker'; end
 		else if	(pos('WorkbenchArmor',ItemName)>0) then begin ItemName:= 'Armor Workbench';MarkerType:= 'ArmorWorkbenchMarker'; end
 		else if (pos('WorkbenchCooking',ItemName)>0) then begin ItemName:= 'Cooking Station';MarkerType:= 'CookWorkbenchMarker'; end
 		else if	(pos('WorkbenchPowerArmor',ItemName)>0) then begin ItemName:= 'Power Armor Station';MarkerType:= 'PAWorkbenchMarker'; end
