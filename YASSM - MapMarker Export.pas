@@ -60,6 +60,9 @@ begin
 			end;
 
 			if (LocName = 'Vault 79') then MarkerName := 'Vault79Marker';
+			if (LocName = 'The Rusty Pick') then MarkerName := 'LegendaryPurveyorMarker'; //Patch20, no keyword to identify, ESM has PlayerLocMarker, so hardcode
+			//Bloody Franks Location name changed to Berkeley Springs, so we should use the map marker name, even though Use Location Name is flagged.. BethBug
+			if (IntToHex(FixedFormID(e), 8) = '0059D06D') then LocName := GetEditValue(ElementByName(ElementByName(e,'Map Marker'),'FULL - Name'));
 
 
 				Row := '{"id":"'+IntToHex(FixedFormID(e), 8)+'","name":"'+ LocName +'",';

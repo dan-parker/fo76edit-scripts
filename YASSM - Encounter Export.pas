@@ -104,6 +104,14 @@ begin
 	Row := Row +  '"y":'+GetEditValue(ElementByName(ElementByName(ElementByName(e,'DATA - Position/Rotation'),'Position'),'Y'))+'},';
 	sl.Add(row);
    end;
+   if (pos('RETriggerCamp',edid)>0) then begin
+	Row := '{"id":"'+IntToHex(FixedFormID(e), 8)+'","name":"Camp Encounter",';
+	Row := Row +  '"type":"CampEncounterMarker",';
+	Row := Row +  '"x":'+GetEditValue(ElementByName(ElementByName(ElementByName(e,'DATA - Position/Rotation'),'Position'),'X'))+',';
+	Row := Row +  '"y":'+GetEditValue(ElementByName(ElementByName(ElementByName(e,'DATA - Position/Rotation'),'Position'),'Y'))+'},';
+	sl.Add(row);
+   end;
+
 end
 else exit;
  Result := 0;
