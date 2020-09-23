@@ -34,6 +34,7 @@ begin
 		else if (pos('WorkbenchCooking',edid)>0) then begin name:= 'Cooking Station';markername:= 'Cook'; end
 		else if	(pos('WorkbenchPowerArmor',edid)>0) then begin name:= 'Power Armor Station';markername:= 'PA'; end
 		else if (pos('WorkbenchChemistry',edid)>0) then begin name:= 'Chemistry Station';markername:= 'Chemistry'; end
+		else if (pos('WorkbenchBrewing',edid)>0) then begin name:= 'Brewing Station';markername:= 'Brewing'; end
 		else exit; //We only care about special ones
 	Row := '{"id":"'+IntToHex(FixedFormID(e), 8)+'","name":"'+name+'",';
 	Row := Row +  '"type":"'+markername+'WorkbenchMarker",';
