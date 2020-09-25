@@ -99,7 +99,8 @@ begin
 		else if	(pos('WorkbenchArmor',ItemName)>0) then begin ItemName:= 'Armor Workbench';MarkerType:= 'ArmorWorkbenchMarker'; end
 		else if (pos('WorkbenchCooking',ItemName)>0) then begin ItemName:= 'Cooking Station';MarkerType:= 'CookWorkbenchMarker'; end
 		else if	(pos('WorkbenchPowerArmor',ItemName)>0) then begin ItemName:= 'Power Armor Station';MarkerType:= 'PAWorkbenchMarker'; end
-		else if (pos('WorkbenchChemistry',ItemName)>0) then begin ItemName:= 'Chemistry Station';MarkerType:= 'ChemistryWorkbenchMarker'; end;
+		else if (pos('WorkbenchChemistry',ItemName)>0) then begin ItemName:= 'Chemistry Station';MarkerType:= 'ChemistryWorkbenchMarker'; end
+		else if (pos('WorkbenchBrewing',ItemName)>0) then begin ItemName:= 'Brewing Station';MarkerType:= 'BrewingWorkbenchMarker'; end;
 
    if (pos('LPI_PowerArmorFurniture',ItemName)>0) then begin ItemName:= 'Power Armor';MarkerType:= 'PArmorMarker'; end;
    if (pos('LPI_Ammo_FusionCore',ItemName)>0) then begin ItemName:= 'Fusion Core';MarkerType:= 'FCoreMarker'; end;
