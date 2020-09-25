@@ -54,7 +54,7 @@ end;
 
 function Process(e: IInterface): integer;
 var 
-	edid,row: string;
+	edid,name,row: string;
 	id: integer;
 begin
   if Signature(e) = 'ACHR' then begin
@@ -72,6 +72,18 @@ begin
    if (pos('MoMMistressCorpse ',edid)>0) then begin
 	Row := '{"id":"'+IntToHex(FixedFormID(e), 8)+'","name":"Mysterious Body",';
 	Row := Row +  '"type":"MistressMarker",';
+	Row := Row +  '"x":'+GetEditValue(ElementByName(ElementByName(ElementByName(e,'DATA - Position/Rotation'),'Position'),'X'))+',';
+	Row := Row +  '"y":'+GetEditValue(ElementByName(ElementByName(ElementByName(e,'DATA - Position/Rotation'),'Position'),'Y'))+'},';
+	sl.Add(row);
+   end;
+
+   if (pos('W05_LvlDenizen_',edid)>0) then begin
+		if (pos('Settler',edid)>0) then name:= 'Settler'
+		else if	(pos('Raider',edid)>0) then name:= 'Raider'
+		else if	(pos('Scavenger',edid)>0) then name:= 'Scavenger'
+		else exit; //We only care about special ones
+	Row := '{"id":"'+IntToHex(FixedFormID(e), 8)+'","name":"'+name+' Ally",';
+	Row := Row +  '"type":"AllyMarker",';
 	Row := Row +  '"x":'+GetEditValue(ElementByName(ElementByName(ElementByName(e,'DATA - Position/Rotation'),'Position'),'X'))+',';
 	Row := Row +  '"y":'+GetEditValue(ElementByName(ElementByName(ElementByName(e,'DATA - Position/Rotation'),'Position'),'Y'))+'},';
 	sl.Add(row);
