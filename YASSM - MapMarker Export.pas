@@ -48,11 +48,14 @@ begin
 			MarkerName := GetEditValue(ElementByName(ElementByName(ElementByName(e,'Map Marker'),'TNAM - TNAM'),'Type'));
 			for k := 0 to ElementCount(Keywords) -1 do begin
 			  if ((MarkerName = 'DoorMarker') or (MarkerName = 'QuestMarker') or (MarkerName = 'PublicWorkshopMarker')) then begin
-			  	if (pos('LocEncMainBloodEagles',GetEditValue(ElementByIndex(Keywords,k)))>0) then MarkerName := 'BloodEaglesMarker';
 			  	if (pos('LocEncMainCultist',GetEditValue(ElementByIndex(Keywords,k)))>0) then MarkerName := 'CultistMarker';
 			  	if (pos('LocEncMainRaider',GetEditValue(ElementByIndex(Keywords,k)))>0) then MarkerName := 'RaiderMarker';
+			  	if (pos('LocEncMainBloodEagles',GetEditValue(ElementByIndex(Keywords,k)))>0) then MarkerName := 'BloodEaglesMarker';
 			  end;
-
+			//Some locations are missing the BloodEagles keywork.. BethBug
+			if (IntToHex(FixedFormID(e), 8) = '003919F1') then MarkerName := 'BloodEaglesMarker'; //Rollins
+			if (IntToHex(FixedFormID(e), 8) = '005376F8') then MarkerName := 'BloodEaglesMarker'; //Crimson Prospect
+			if (IntToHex(FixedFormID(e), 8) = '0059D06D') then MarkerName := 'BloodEaglesMarker'; //Bloody Frank
 
 			  if (pos('LocSettlementFoundation',GetEditValue(ElementByIndex(Keywords,k)))>0) then MarkerName := 'SettlerMarker';
 			  if (pos('LocSettlementCrater',GetEditValue(ElementByIndex(Keywords,k)))>0) then MarkerName := 'CraterMarker';
@@ -60,9 +63,13 @@ begin
 			end;
 
 			if (LocName = 'Vault 79') then MarkerName := 'Vault79Marker';
+			if (LocName = 'Vault 51') then MarkerName := 'Vault51Marker';
+			if (LocName = 'Ingram Mansion') then MarkerName := 'CultistMarker';
+
 			if (LocName = 'The Rusty Pick') then MarkerName := 'LegendaryPurveyorMarker'; //Patch20, no keyword to identify, ESM has PlayerLocMarker, so hardcode
 			//Bloody Franks Location name changed to Berkeley Springs, so we should use the map marker name, even though Use Location Name is flagged.. BethBug
 			if (IntToHex(FixedFormID(e), 8) = '0059D06D') then LocName := GetEditValue(ElementByName(ElementByName(e,'Map Marker'),'FULL - Name'));
+			if (IntToHex(FixedFormID(e), 8) = '000B1051') then LocName := GetEditValue(ElementByName(ElementByName(e,'Map Marker'),'FULL - Name'));
 
 
 				Row := '{"id":"'+IntToHex(FixedFormID(e), 8)+'","name":"'+ LocName +'",';
