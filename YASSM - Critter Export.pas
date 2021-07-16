@@ -36,7 +36,7 @@ begin
 				e := ElementByIndex(cell,z);
 				Name := GetEditValue(ElementByName(e,'NAME - Base'));
 				If (wbStringListInString(CritterList,Name) <> -1) then begin
-					Row := '{"id":"'+IntToHex(FixedFormID(e), 8)+'","name":"'+StringReplace(Name,'LvlCritter','',[rfReplaceAll])+'",';
+					Row := '{"id":"'+IntToHex(FixedFormID(e), 8)+'","name":"'+StringReplace(StringReplace(Name,'LvlCritter','',[rfReplaceAll]),'"','\"',[rfReplaceAll])+'",';
 					Row := Row +  '"type":"CritterMarker",';
 					Row := Row +  '"x":'+GetEditValue(ElementByName(ElementByName(ElementByName(e,'DATA - Position/Rotation'),'Position'),'X'))+',';
 					Row := Row +  '"y":'+GetEditValue(ElementByName(ElementByName(ElementByName(e,'DATA - Position/Rotation'),'Position'),'Y'))+'},';
