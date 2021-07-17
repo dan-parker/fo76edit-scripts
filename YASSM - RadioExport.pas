@@ -24,9 +24,9 @@ begin
 		Outtros := '';
 		//Typically the Song is action 1, intro 2, outtro 3
 		If (ElementCount(SceneActions)=3) then begin
-			SongID := LinksTo(ElementByPath(ElementByIndex(SceneActions,0), 'HTID\Play Sound')); //Song
-			DialogID := LinksTo(ElementByPath(ElementByIndex(SceneActions,1), 'DATA - Topic'));  //Intro
-			DialogID2 := LinksTo(ElementByPath(ElementByIndex(SceneActions,2), 'DATA - Topic'));  //Outtro
+			SongID := LinksTo(ElementByPath(ElementByIndex(SceneActions,0), 'Radio and Dialogue\Radio\HTID - Play Sound')); //Song
+			DialogID := LinksTo(ElementByPath(ElementByIndex(SceneActions,1), 'Radio and Dialogue\DATA - Topic'));  //Intro
+			DialogID2 := LinksTo(ElementByPath(ElementByIndex(SceneActions,2), 'Radio and Dialogue\DATA - Topic'));  //Outtro
 			Song := StringReplace(GetEditValue(ElementByPath(SongID,'Sounds\Sound Files\ANAM')),'.wav','.mp3',[rfReplaceAll]);	
 			IntroIDs := ChildGroup(DialogID);
 			OuttroIDs := ChildGroup(DialogID2);
@@ -46,7 +46,7 @@ begin
 			end;
 		end
 		else If (ElementCount(SceneActions)=1) then begin //Likely a julie message
-			DialogID := LinksTo(ElementByPath(ElementByIndex(SceneActions,0), 'DATA - Topic'));
+			DialogID := LinksTo(ElementByPath(ElementByIndex(SceneActions,0), 'Radio and Dialogue\DATA - Topic'));
 			IntroIDs := ChildGroup(DialogID);
 			Intros := '"Intros":[';
 			for k := 0 to ElementCount(IntroIDs)-1 do begin
@@ -61,7 +61,7 @@ begin
 			Intros := '"Intros":[';
 			Outtros := '"Outtros":[';
 			for j := 0 to ElementCount(SceneActions)-1 do begin
-				DialogID := LinksTo(ElementByPath(ElementByIndex(SceneActions,j), 'DATA - Topic'));
+				DialogID := LinksTo(ElementByPath(ElementByIndex(SceneActions,j), 'Radio and Dialogue\DATA - Topic'));
 				IntroIDs := ChildGroup(DialogID);
 				for k := 0 to ElementCount(IntroIDs)-1 do begin
 					Intros := Intros + '"' + IntToHex(FixedFormID(ElementByIndex(IntroIDs,k)),8) + '_1.mp3",';
